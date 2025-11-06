@@ -104,8 +104,30 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm opacity-80">
-          <p>&copy; 2025 BlueDrop Plumbing. Všetky práva vyhradené.</p>
+        <div className="border-t border-primary-foreground/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-80">
+          <div className="flex flex-col md:flex-row items-center gap-2">
+            <p>&copy; 2025 BlueDrop Plumbing. Všetky práva vyhradené.</p>
+            <span className="hidden md:inline">•</span>
+            <p>
+              Vytvoril{" "}
+              <a
+                href="https://pawlynx.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-accent transition underline"
+              >
+                PawLynx
+              </a>
+            </p>
+          </div>
+          <div className="flex gap-6">
+            <Link href="#" className="hover:opacity-100 transition">
+              Ochrana osobných údajov
+            </Link>
+            <Link href="#" className="hover:opacity-100 transition">
+              Obchodné podmienky
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
