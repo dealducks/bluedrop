@@ -14,6 +14,13 @@ import {
   CheckCircle,
 } from "lucide-react"
 import Link from "next/link"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+  fadeInUp,
+  scaleInBounce,
+  staggerContainer,
+  staggerItem,
+} from "@/lib/animations"
 
 export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
@@ -123,98 +130,168 @@ export default function ServicesPage() {
 
   return (
     <main>
-      {/* Hero Section */}
-      <section className="bg-background py-8 md:py-8">
+      {/* Hero Section with animation */}
+      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-28 md:pt-36 -mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold">Naše služby</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            Naše služby
+          </h1>
+          <p className="text-lg opacity-95 max-w-2xl">
+            Poskytujeme komplexné inštalatérske riešenia pre domácnosti aj firmy v Bratislave.
+          </p>
         </div>
       </section>
 
       {/* Services Grid with Filter */}
-      <section className="pb-20 bg-background">
+      <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Filter */}
-          <div className="mb-16">
+          {/* Filter with animated indicator */}
+          <motion.div
+            className="mb-16"
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+          >
             <h2 className="text-2xl font-bold mb-6">Filtrovať podľa kategórie</h2>
             <div className="flex flex-wrap gap-3">
               {categories.map((category) => (
-                <button
+                <motion.button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-6 py-2 rounded-lg font-semibold transition ${
+                  className={`px-6 py-2 rounded-lg font-semibold transition relative ${
                     selectedCategory === category.id
                       ? "bg-accent text-accent-foreground"
                       : "bg-card text-foreground border border-border hover:border-primary"
                   }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={selectedCategory === category.id ? { scale: [1, 1.05, 1] } : {}}
+                  transition={{ duration: 0.3 }}
                 >
                   {category.label}
-                </button>
+                </motion.button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* Results Count */}
-          <p className="text-muted-foreground mb-8">
+          {/* Results Count with animation */}
+          <motion.p
+            key={selectedCategory}
+            className="text-muted-foreground mb-8"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             Zobrazuje sa {filteredServices.length} služi{filteredServices.length !== 1 ? "eb" : "ba"}
-          </p>
+          </motion.p>
 
-          {/* Services Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredServices.map((service) => (
-              <div
-                key={service.id}
-                className="bg-card rounded-xl border border-border overflow-hidden hover:shadow-lg transition"
-              >
-                <div className="p-8">
-                  <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center mb-4">
-                    <service.icon size={24} className="text-accent-foreground" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-6">{service.description}</p>
+          {/* Services Grid with animated transitions */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={selectedCategory}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+            >
+              {filteredServices.map((service, index) => (
+                <motion.div
+                  key={service.id}
+                  variants={staggerItem}
+                  layout
+                  whileHover={{
+                    y: -10,
+                    scale: 1.02,
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.15)",
+                    borderRadius: "1rem",
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="h-full"
+                >
+                  <div className="bg-card rounded-2xl border border-border overflow-hidden hover:shadow-lg transition h-full flex flex-col">
+                    <div className="p-8 flex flex-col flex-grow">
+                      <motion.div
+                        className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4"
+                        whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1, borderRadius: "0.75rem" }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <service.icon size={24} className="text-accent-foreground" />
+                      </motion.div>
+                      <h3 className="text-xl font-bold mb-2">{service.title}</h3>
+                      <p className="text-muted-foreground text-sm mb-6 flex-grow">{service.description}</p>
 
-                  {/* Features */}
-                  <ul className="space-y-2 mb-6 pb-6 border-b border-border">
-                    {service.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center gap-2 text-sm">
-                        <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                      {/* Features */}
+                      <ul className="space-y-2 mb-6 pb-6 border-b border-border">
+                        {service.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-center gap-2 text-sm">
+                            <div className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0" />
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
 
-                  {/* Price and CTA */}
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-1">Cena od</p>
-                      <p className="text-lg font-bold text-accent">{service.price}</p>
+                      {/* Price and CTA */}
+                      <div className="space-y-4 mt-auto">
+                        <div>
+                          <p className="text-xs text-muted-foreground mb-1">Cena od</p>
+                          <p className="text-lg font-bold text-accent">{service.price}</p>
+                        </div>
+                        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                          <Link
+                            href="/contact"
+                            className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground text-center py-2 rounded-lg font-semibold transition"
+                          >
+                            Žiadosť o ponuku
+                          </Link>
+                        </motion.div>
+                      </div>
                     </div>
-                    <Link
-                      href="/contact"
-                      className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground text-center py-2 rounded-lg font-semibold transition"
-                    >
-                      Žiadosť o ponuku
-                    </Link>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section with animation */}
       <section className="py-20 bg-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Nenašli ste, čo potrebujete?</h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Ponúkame aj individuálne inštalatérske riešenia pre jedinečné projekty. Kontaktujte nás, aby sme prediskutovali vaše konkrétne potreby.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-block bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition"
+          <motion.h2
+            className="text-3xl md:text-4xl font-bold mb-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
           >
-            Kontaktujte nás dnes
-          </Link>
+            Nenašli ste, čo potrebujete?
+          </motion.h2>
+          <motion.p
+            className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            Ponúkame aj individuálne inštalatérske riešenia pre jedinečné projekty. Kontaktujte nás, aby sme prediskutovali vaše konkrétne potreby.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link
+              href="/contact"
+              className="inline-block bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition"
+            >
+              Kontaktujte nás dnes
+            </Link>
+          </motion.div>
         </div>
       </section>
     </main>

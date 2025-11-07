@@ -4,6 +4,15 @@ import type React from "react"
 
 import { useState } from "react"
 import { Phone, Mail, MapPin, Clock, AlertCircle, Send } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+  fadeInUp,
+  fadeInLeft,
+  fadeInRight,
+  staggerContainer,
+  staggerItem,
+  scaleInBounce,
+} from "@/lib/animations"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -31,21 +40,33 @@ export default function ContactPage() {
 
   return (
     <main>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24">
+      {/* Hero Section with animation */}
+      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-28 md:pt-36 -mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Kontaktujte nás</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            Kontaktujte nás
+          </h1>
           <p className="text-lg opacity-95 max-w-2xl">
             Máte otázku alebo potrebujete okamžitú pomoc? Sme tu pre vás. Kontaktujte nás ešte dnes pre bezplatnú konzultáciu.
           </p>
         </div>
       </section>
 
-      {/* Emergency Banner */}
+      {/* Emergency Banner with pulse animation */}
       <section className="bg-red-50 border-b-2 border-red-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center gap-3 text-red-900">
-            <AlertCircle size={20} className="flex-shrink-0" />
+          <motion.div
+            className="flex items-center gap-3 text-red-900"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <AlertCircle size={20} className="flex-shrink-0" />
+            </motion.div>
             <p className="font-semibold">
               Núdzová situácia? Zavolajte nám okamžite na{" "}
               <a href="tel:+421905123456" className="underline hover:opacity-80">
@@ -53,7 +74,7 @@ export default function ContactPage() {
               </a>{" "}
               - služba 24/7 k dispozícii
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -61,16 +82,36 @@ export default function ContactPage() {
       <section className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div>
+            {/* Contact Form with stagger animation */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={fadeInLeft}
+            >
               <h2 className="text-3xl font-bold mb-8">Napíšte nám</h2>
-              {submitted && (
-                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-900">
-                  <p className="font-semibold">Ďakujeme! Vaša správa bola odoslaná. Čoskoro vás budeme kontaktovať.</p>
-                </div>
-              )}
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
+              <AnimatePresence>
+                {submitted && (
+                  <motion.div
+                    className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-900"
+                    initial={{ opacity: 0, scale: 0.8, y: -20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.8, y: -20 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <p className="font-semibold">Ďakujeme! Vaša správa bola odoslaná. Čoskoro vás budeme kontaktovať.</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              <motion.form
+                onSubmit={handleSubmit}
+                className="space-y-6"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                <motion.div variants={staggerItem}>
                   <label className="block text-sm font-semibold mb-2">Celé meno</label>
                   <input
                     type="text"
@@ -81,8 +122,8 @@ export default function ContactPage() {
                     className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent bg-card"
                     placeholder="Ján Novák"
                   />
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={staggerItem}>
                   <label className="block text-sm font-semibold mb-2">Emailová adresa</label>
                   <input
                     type="email"
@@ -93,8 +134,8 @@ export default function ContactPage() {
                     className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent bg-card"
                     placeholder="jan@priklad.sk"
                   />
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={staggerItem}>
                   <label className="block text-sm font-semibold mb-2">Telefónne číslo</label>
                   <input
                     type="tel"
@@ -105,8 +146,8 @@ export default function ContactPage() {
                     className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent bg-card"
                     placeholder="+421 905 123 456"
                   />
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={staggerItem}>
                   <label className="block text-sm font-semibold mb-2">Potrebná služba</label>
                   <select
                     name="service"
@@ -122,8 +163,8 @@ export default function ContactPage() {
                       </option>
                     ))}
                   </select>
-                </div>
-                <div>
+                </motion.div>
+                <motion.div variants={staggerItem}>
                   <label className="block text-sm font-semibold mb-2">Správa</label>
                   <textarea
                     name="message"
@@ -134,27 +175,50 @@ export default function ContactPage() {
                     className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent bg-card resize-none"
                     placeholder="Popíšte vaše inštalatérske potreby..."
                   />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2"
-                >
-                  <Send size={18} />
-                  Odoslať správu
-                </button>
-              </form>
-            </div>
+                </motion.div>
+                <motion.div variants={staggerItem}>
+                  <motion.button
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Send size={18} />
+                    Odoslať správu
+                  </motion.button>
+                </motion.div>
+              </motion.form>
+            </motion.div>
 
-            {/* Contact Information */}
-            <div>
+            {/* Contact Information with stagger animations */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={fadeInRight}
+            >
               <h2 className="text-3xl font-bold mb-8">Kontaktné informácie</h2>
-              <div className="space-y-8">
+              <motion.div
+                className="space-y-8"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
                 {/* Phone */}
-                <div className="bg-card rounded-xl border border-border p-6">
+                <motion.div
+                  className="bg-card rounded-2xl border border-border p-6"
+                  variants={staggerItem}
+                  whileHover={{ scale: 1.02, y: -5, borderRadius: "1rem" }}
+                >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
+                    <motion.div
+                      className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
+                      whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <Phone size={20} className="text-accent-foreground" />
-                    </div>
+                    </motion.div>
                     <div>
                       <h3 className="font-semibold mb-2">Telefón</h3>
                       <a
@@ -168,14 +232,22 @@ export default function ContactPage() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Email */}
-                <div className="bg-card rounded-xl border border-border p-6">
+                <motion.div
+                  className="bg-card rounded-2xl border border-border p-6"
+                  variants={staggerItem}
+                  whileHover={{ scale: 1.02, y: -5, borderRadius: "1rem" }}
+                >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
+                    <motion.div
+                      className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
+                      whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <Mail size={20} className="text-accent-foreground" />
-                    </div>
+                    </motion.div>
                     <div>
                       <h3 className="font-semibold mb-2">Email</h3>
                       <a
@@ -189,14 +261,22 @@ export default function ContactPage() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Address */}
-                <div className="bg-card rounded-xl border border-border p-6">
+                <motion.div
+                  className="bg-card rounded-2xl border border-border p-6"
+                  variants={staggerItem}
+                  whileHover={{ scale: 1.02, y: -5, borderRadius: "1rem" }}
+                >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
+                    <motion.div
+                      className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
+                      whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <MapPin size={20} className="text-accent-foreground" />
-                    </div>
+                    </motion.div>
                     <div>
                       <h3 className="font-semibold mb-2">Kancelária</h3>
                       <p className="font-semibold block mb-1">Štefánikova 15</p>
@@ -204,14 +284,22 @@ export default function ContactPage() {
                       <p className="text-muted-foreground">Slovensko</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Hours */}
-                <div className="bg-card rounded-xl border border-border p-6">
+                <motion.div
+                  className="bg-card rounded-2xl border border-border p-6"
+                  variants={staggerItem}
+                  whileHover={{ scale: 1.02, y: -5, borderRadius: "1rem" }}
+                >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
+                    <motion.div
+                      className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
+                      whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <Clock size={20} className="text-accent-foreground" />
-                    </div>
+                    </motion.div>
                     <div>
                       <h3 className="font-semibold mb-2">Otváracie hodiny</h3>
                       <div className="space-y-1 text-sm">
@@ -230,18 +318,32 @@ export default function ContactPage() {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Map Section */}
+      {/* Map Section with reveal animation */}
       <section className="py-20 bg-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold mb-12 text-center">Navštívte našu kanceláriu</h2>
-          <div className="bg-card rounded-xl border border-border overflow-hidden h-96">
+          <motion.h2
+            className="text-3xl font-bold mb-12 text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            Navštívte našu kanceláriu
+          </motion.h2>
+          <motion.div
+            className="bg-card rounded-2xl border border-border overflow-hidden h-96"
+            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2662.2419886842847!2d17.108688615674747!3d48.15123597922405!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476c894ab6a8b70b%3A0x7c67a6e6e75cb1a3!2s%C5%A0tef%C3%A1nikova%2015%2C%20811%2005%20Star%C3%A9%20Mesto%2C%20Slovakia!5e0!3m2!1sen!2s!4v1234567890123!5m2!1sen!2s"
               width="100%"
@@ -252,7 +354,7 @@ export default function ContactPage() {
               referrerPolicy="no-referrer-when-downgrade"
               title="BlueDrop Plumbing Office Location"
             />
-          </div>
+          </motion.div>
         </div>
       </section>
     </main>

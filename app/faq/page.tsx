@@ -2,6 +2,12 @@
 
 import { useState } from "react"
 import { ChevronDown, HelpCircle } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import {
+  fadeInUp,
+  staggerContainer,
+  staggerItem,
+} from "@/lib/animations"
 
 export default function FAQPage() {
   const [openFaqId, setOpenFaqId] = useState<string | null>(null)
@@ -126,11 +132,16 @@ export default function FAQPage() {
 
   return (
     <main>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24">
+      {/* Hero Section with animation */}
+      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-28 md:pt-36 -mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center gap-3">
-            <HelpCircle size={40} />
+            <motion.div
+              animate={{ rotate: [0, -10, 10, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
+            >
+              <HelpCircle size={40} />
+            </motion.div>
             Často kladené otázky
           </h1>
           <p className="text-lg opacity-95 max-w-2xl">
@@ -139,66 +150,130 @@ export default function FAQPage() {
         </div>
       </section>
 
-      {/* FAQ Content */}
+      {/* FAQ Content with stagger animations */}
       <section className="py-20 bg-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-16">
-            {faqCategories.map((section) => (
-              <div key={section.category}>
-                <h2 className="text-2xl font-bold mb-8 text-primary flex items-center gap-2">
-                  <div className="w-1 h-8 bg-accent rounded-full" />
+            {faqCategories.map((section, sectionIndex) => (
+              <motion.div
+                key={section.category}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={staggerContainer}
+              >
+                <motion.h2
+                  className="text-2xl font-bold mb-8 text-primary flex items-center gap-2"
+                  variants={staggerItem}
+                >
+                  <motion.div
+                    className="w-1 h-8 bg-accent rounded-full"
+                    initial={{ scaleY: 0 }}
+                    whileInView={{ scaleY: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: sectionIndex * 0.1, type: "spring", stiffness: 300 }}
+                  />
                   {section.category}
-                </h2>
+                </motion.h2>
                 <div className="space-y-4">
-                  {section.faqs.map((faq) => (
-                    <div key={faq.id} className="bg-card rounded-lg border border-border overflow-hidden">
-                      <button
+                  {section.faqs.map((faq, faqIndex) => (
+                    <motion.div
+                      key={faq.id}
+                      className="bg-card rounded-2xl border border-border overflow-hidden"
+                      variants={staggerItem}
+                      whileHover={{ scale: 1.01, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}
+                    >
+                      <motion.button
                         onClick={() => setOpenFaqId(openFaqId === faq.id ? null : faq.id)}
                         className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted/50 transition font-semibold text-left"
+                        whileTap={{ scale: 0.99 }}
                       >
                         <span>{faq.q}</span>
-                        <ChevronDown
-                          size={24}
-                          className={`flex-shrink-0 text-accent transition-transform ${
-                            openFaqId === faq.id ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-                      {openFaqId === faq.id && (
-                        <div className="px-6 py-4 border-t border-border bg-muted/30 text-muted-foreground">
-                          <p className="leading-relaxed">{faq.a}</p>
-                        </div>
-                      )}
-                    </div>
+                        <motion.div
+                          animate={{ rotate: openFaqId === faq.id ? 180 : 0 }}
+                          transition={{ duration: 0.3, ease: "easeInOut" }}
+                        >
+                          <ChevronDown size={24} className="flex-shrink-0 text-accent" />
+                        </motion.div>
+                      </motion.button>
+                      <AnimatePresence>
+                        {openFaqId === faq.id && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="px-6 py-4 border-t border-border bg-muted/30 text-muted-foreground">
+                              <motion.p
+                                className="leading-relaxed"
+                                initial={{ y: -10, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.1, duration: 0.3 }}
+                              >
+                                {faq.a}
+                              </motion.p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section with animation */}
       <section className="py-20 bg-muted">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-6">Nenašli ste odpoveď?</h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <motion.h2
+            className="text-3xl font-bold mb-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+          >
+            Nenašli ste odpoveď?
+          </motion.h2>
+          <motion.p
+            className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
             Neváhajte kontaktovať náš tím. Radi zodpovieme všetky vaše otázky.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            <motion.a
               href="tel:+421905123456"
               className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition"
+              variants={staggerItem}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Zavolať +421 905 123 456
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="/contact"
               className="border-2 border-primary hover:bg-primary/10 text-primary px-8 py-3 rounded-lg font-semibold transition"
+              variants={staggerItem}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Kontaktujte nás
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
         </div>
       </section>
     </main>
