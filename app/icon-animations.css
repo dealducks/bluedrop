@@ -1,0 +1,258 @@
+/* Icon Animation Keyframes */
+
+/* Hover Animations */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+}
+
+@keyframes rotate-360 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Entrance Animations */
+@keyframes spin-in {
+  from {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-y-in {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Continuous Animations */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes pulse-strong {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes slide-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(5px); }
+}
+
+@keyframes rotate-slow {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes pulse-ring-primary {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+/* Utility Classes */
+
+/* Hover Effects */
+.icon-hover-wiggle {
+  transition: transform 0.3s ease;
+}
+
+.icon-hover-wiggle:hover {
+  animation: wiggle 0.5s ease;
+}
+
+.icon-hover-rotate {
+  transition: transform 0.6s ease;
+}
+
+.icon-hover-rotate:hover {
+  transform: rotate(360deg) scale(1.2);
+}
+
+.icon-hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.icon-hover-scale:hover {
+  transform: scale(1.1);
+}
+
+.icon-hover-wiggle-scale {
+  transition: transform 0.3s ease;
+}
+
+.icon-hover-wiggle-scale:hover {
+  animation: wiggle 0.5s ease;
+  transform: scale(1.1);
+}
+
+/* Entrance Animations */
+.icon-entrance-spin {
+  animation: spin-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.icon-entrance-pop {
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.icon-entrance-scale-y {
+  animation: scale-y-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: bottom;
+}
+
+/* Stagger delays for entrance animations */
+.icon-delay-1 { animation-delay: 0.1s; }
+.icon-delay-2 { animation-delay: 0.2s; }
+.icon-delay-3 { animation-delay: 0.3s; }
+.icon-delay-4 { animation-delay: 0.4s; }
+.icon-delay-5 { animation-delay: 0.5s; }
+.icon-delay-6 { animation-delay: 0.6s; }
+.icon-delay-7 { animation-delay: 0.7s; }
+.icon-delay-8 { animation-delay: 0.8s; }
+.icon-delay-9 { animation-delay: 0.9s; }
+.icon-delay-10 { animation-delay: 1s; }
+.icon-delay-11 { animation-delay: 1.1s; }
+.icon-delay-12 { animation-delay: 1.2s; }
+.icon-delay-13 { animation-delay: 1.3s; }
+.icon-delay-14 { animation-delay: 1.4s; }
+.icon-delay-15 { animation-delay: 1.5s; }
+
+/* Continuous Animations */
+.icon-continuous-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.icon-continuous-pulse-strong {
+  animation: pulse-strong 2s ease-in-out infinite;
+}
+
+.icon-continuous-float {
+  animation: float 2s ease-in-out infinite;
+}
+
+.icon-continuous-slide {
+  animation: slide-right 1.5s ease-in-out infinite;
+}
+
+.icon-continuous-rotate {
+  animation: rotate-slow 3s ease-in-out infinite;
+}
+
+.icon-pulse-ring {
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+.icon-pulse-ring-delayed {
+  animation: pulse-ring 2s ease-out 1s infinite;
+}
+
+.icon-pulse-ring-primary {
+  animation: pulse-ring-primary 2s ease-out infinite;
+}
+
+/* Periodic wiggle (for FAQ help icon) */
+.icon-wiggle-periodic {
+  animation: wiggle 3s ease-in-out 2s infinite;
+}
+
+/* Toggle rotation (for chevrons) */
+.icon-rotate-toggle {
+  transition: transform 0.3s ease-in-out;
+}
+
+.icon-rotate-toggle.active {
+  transform: rotate(180deg);
+}
+
+/* Card Hover Effects */
+.card-hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .icon-hover-wiggle:hover,
+  .icon-hover-rotate:hover,
+  .icon-hover-scale:hover,
+  .icon-hover-wiggle-scale:hover,
+  .icon-entrance-spin,
+  .icon-entrance-pop,
+  .icon-entrance-scale-y,
+  .icon-continuous-pulse,
+  .icon-continuous-pulse-strong,
+  .icon-continuous-float,
+  .icon-continuous-slide,
+  .icon-continuous-rotate,
+  .icon-pulse-ring,
+  .icon-pulse-ring-delayed,
+  .icon-pulse-ring-primary,
+  .icon-wiggle-periodic {
+    animation: none !important;
+  }
+
+  .icon-hover-rotate:hover {
+    transform: scale(1.1);
+  }
+
+  .icon-rotate-toggle,
+  .card-hover-lift {
+    transition: none;
+  }
+
+  .card-hover-lift:hover {
+    transform: none;
+  }
+}

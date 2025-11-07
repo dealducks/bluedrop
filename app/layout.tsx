@@ -79,7 +79,7 @@ export default function RootLayout({
         <Navigation />
         {children}
         <Footer />
-        <Analytics />
+        <Analytics debug={false} />
       </body>
     </html>
   )

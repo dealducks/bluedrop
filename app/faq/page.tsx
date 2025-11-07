@@ -8,6 +8,7 @@ import {
   staggerContainer,
   staggerItem,
 } from "@/lib/animations"
+import { WaveDivider } from "@/components/background-effects/wave-divider"
 
 export default function FAQPage() {
   const [openFaqId, setOpenFaqId] = useState<string | null>(null)
@@ -133,21 +134,19 @@ export default function FAQPage() {
   return (
     <main>
       {/* Hero Section with animation */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-28 md:pt-36 -mt-20">
+      <section className="relative bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-32 md:pt-40 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 flex items-center gap-3">
-            <motion.div
-              animate={{ rotate: [0, -10, 10, -10, 0] }}
-              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
-            >
+            <div className="icon-continuous-wiggle">
               <HelpCircle size={40} />
-            </motion.div>
+            </div>
             Často kladené otázky
           </h1>
           <p className="text-lg opacity-95 max-w-2xl">
             Nájdite odpovede na bežné otázky o našich službách, cenách, plánovaní a viac.
           </p>
         </div>
+        <WaveDivider position="bottom" variant="flowing" color="background" />
       </section>
 
       {/* FAQ Content with stagger animations */}
@@ -157,9 +156,9 @@ export default function FAQPage() {
             {faqCategories.map((section, sectionIndex) => (
               <motion.div
                 key={section.category}
-                initial="hidden"
+                
                 whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.05 }}
                 variants={staggerContainer}
               >
                 <motion.h2
@@ -232,7 +231,7 @@ export default function FAQPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h2
             className="text-3xl font-bold mb-6"
-            initial="hidden"
+            
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
@@ -250,7 +249,7 @@ export default function FAQPage() {
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial="hidden"
+            
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}

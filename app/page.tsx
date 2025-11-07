@@ -19,6 +19,8 @@ import {
   wordItem,
 } from "@/lib/animations"
 import { useCountUpFormatted } from "@/hooks/use-count-up"
+import { WaterParticles } from "@/components/background-effects/water-particles"
+import { WaveDivider } from "@/components/background-effects/wave-divider"
 
 // Stats Counter Component with count-up animation
 function StatsCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -76,7 +78,8 @@ export default function Home() {
   return (
     <main>
       {/* Hero Section with dramatic animations */}
-      <section className="relative bg-gradient-to-r from-primary to-secondary text-primary-foreground pt-28 pb-20 md:pt-56 md:pb-48 overflow-hidden -mt-20">
+      <section className="relative bg-gradient-to-r from-primary to-secondary text-primary-foreground pt-32 pb-20 md:pt-48 md:pb-48 overflow-hidden">
+        <WaterParticles density="medium" color="white" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -94,12 +97,7 @@ export default function Home() {
                     className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2"
                   >
                     Získať ponuku
-                    <motion.div
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <ArrowRight size={20} />
-                    </motion.div>
+                    <ArrowRight size={20} className="icon-continuous-slide" />
                   </Link>
                 </motion.div>
                 <motion.a
@@ -138,16 +136,17 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
+        <WaveDivider position="bottom" variant="flowing" color="background" />
       </section>
 
       {/* Featured Services with scroll-triggered stagger animation */}
-      <section className="py-20 bg-background">
+      <section className="relative pt-20 pb-32 bg-background">
+        <WaterParticles density="low" color="blue" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center mb-16"
-            initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.05 }}
             variants={fadeInUp}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Naše služby</h2>
@@ -157,9 +156,8 @@ export default function Home() {
           </motion.div>
           <motion.div
             className="grid md:grid-cols-3 gap-8"
-            initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.05 }}
             variants={staggerContainer}
           >
             {services.map((service, idx) => (
@@ -175,13 +173,9 @@ export default function Home() {
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 <div className="bg-card rounded-2xl border border-border p-8 h-full hover:shadow-lg transition">
-                  <motion.div
-                    className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4"
-                    whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1, borderRadius: "0.75rem" }}
-                    transition={{ duration: 0.5 }}
-                  >
+                  <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4 icon-hover-wiggle-scale">
                     <service.icon size={24} className="text-accent-foreground" />
-                  </motion.div>
+                  </div>
                   <h3 className="text-xl font-bold mb-3">{service.title}</h3>
                   <p className="text-muted-foreground mb-4">{service.desc}</p>
                   <Link
@@ -189,11 +183,7 @@ export default function Home() {
                     className="text-accent font-semibold hover:text-accent/80 transition flex items-center gap-2 group"
                   >
                     Zistiť viac
-                    <motion.div
-                      className="group-hover:translate-x-1 transition-transform"
-                    >
-                      <ArrowRight size={16} />
-                    </motion.div>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </motion.div>
@@ -201,7 +191,6 @@ export default function Home() {
           </motion.div>
           <motion.div
             className="text-center mt-12"
-            initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
@@ -216,25 +205,24 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </div>
+        <WaveDivider position="bottom" variant="gentle" color="muted" />
       </section>
 
       {/* Why Choose Us with sequential check animations */}
-      <section className="py-20 bg-muted">
+      <section className="relative py-20 bg-muted">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.1 }}
               variants={fadeInLeft}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-8">Prečo si vybrať BlueDrop?</h2>
               <motion.div
                 className="grid sm:grid-cols-2 gap-6"
                 variants={staggerContainer}
-                initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: true, amount: 0.05 }}
               >
                 {whyChoose.map((item, idx) => (
                   <motion.div
@@ -242,19 +230,7 @@ export default function Home() {
                     className="flex items-start gap-3"
                     variants={staggerItem}
                   >
-                    <motion.div
-                      initial={{ scale: 0, rotate: -180 }}
-                      whileInView={{ scale: 1, rotate: 0 }}
-                      viewport={{ once: true }}
-                      transition={{
-                        delay: idx * 0.1,
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 15,
-                      }}
-                    >
-                      <CheckCircle size={24} className="text-accent flex-shrink-0 mt-0.5" />
-                    </motion.div>
+                    <CheckCircle size={24} className={`text-accent flex-shrink-0 mt-0.5 icon-entrance-spin icon-delay-${idx + 1}`} />
                     <span className="font-semibold text-foreground">{item}</span>
                   </motion.div>
                 ))}
@@ -262,15 +238,13 @@ export default function Home() {
             </motion.div>
             <motion.div
               className="bg-card rounded-2xl border border-border p-8"
-              initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.1 }}
               variants={fadeInRight}
             >
               <motion.div
                 className="space-y-6"
                 variants={staggerSlowContainer}
-                initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
               >
@@ -279,13 +253,9 @@ export default function Home() {
                   variants={staggerItem}
                   whileHover={{ x: 5, scale: 1.02 }}
                 >
-                  <motion.div
-                    className="w-16 h-16 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
-                    whileHover={{ rotate: [0, -5, 5, -5, 0], scale: 1.1, borderRadius: "0.75rem" }}
-                    transition={{ duration: 0.5 }}
-                  >
+                  <div className="w-16 h-16 bg-accent rounded-xl flex items-center justify-center flex-shrink-0 icon-hover-wiggle-scale">
                     <StatsCounter target={10} suffix="+" />
-                  </motion.div>
+                  </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Rokov skúseností</p>
                     <p className="font-semibold">Dôverujú nám tisíce</p>
@@ -296,13 +266,9 @@ export default function Home() {
                   variants={staggerItem}
                   whileHover={{ x: 5, scale: 1.02 }}
                 >
-                  <motion.div
-                    className="w-16 h-16 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
+                  <div className="w-16 h-16 bg-accent rounded-xl flex items-center justify-center flex-shrink-0 icon-continuous-pulse">
                     <span className="text-2xl font-bold text-accent-foreground">24/7</span>
-                  </motion.div>
+                  </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Vždy k dispozícii</p>
                     <p className="font-semibold">Núdzová služba</p>
@@ -313,18 +279,9 @@ export default function Home() {
                   variants={staggerItem}
                   whileHover={{ x: 5, scale: 1.02 }}
                 >
-                  <motion.div
-                    className="w-16 h-16 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
-                    whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <motion.div
-                      animate={{ rotate: [0, 10, 0, -10, 0] }}
-                      transition={{ duration: 3, repeat: Infinity }}
-                    >
-                      <Star size={24} className="text-accent-foreground fill-accent-foreground" />
-                    </motion.div>
-                  </motion.div>
+                  <div className="w-16 h-16 bg-accent rounded-xl flex items-center justify-center flex-shrink-0 icon-hover-wiggle">
+                    <Star size={24} className="text-accent-foreground fill-accent-foreground icon-continuous-rotate" />
+                  </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Spokojnosť zákazníkov</p>
                     <p className="font-semibold">100% garantovaná</p>
@@ -334,14 +291,15 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
+        <WaveDivider position="bottom" variant="ripple" color="background" />
       </section>
 
       {/* Testimonials with stagger animation */}
-      <section className="py-20 bg-background">
+      <section className="relative pt-20 pb-40 bg-background">
+        <WaterParticles density="low" color="blue" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             className="text-center mb-16"
-            initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUp}
@@ -352,7 +310,6 @@ export default function Home() {
           <motion.div
             className="grid md:grid-cols-3 gap-8"
             variants={staggerContainer}
-            initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
           >
@@ -369,34 +326,11 @@ export default function Home() {
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 <div className="bg-card rounded-2xl border border-border p-8 h-full">
-                  <motion.div
-                    className="flex gap-1 mb-4"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={staggerContainer}
-                  >
+                  <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        variants={{
-                          hidden: { scale: 0, rotate: -180 },
-                          visible: {
-                            scale: 1,
-                            rotate: 0,
-                            transition: {
-                              delay: i * 0.1,
-                              type: "spring",
-                              stiffness: 200,
-                              damping: 10,
-                            },
-                          },
-                        }}
-                      >
-                        <Star size={16} className="fill-accent text-accent" />
-                      </motion.div>
+                      <Star key={i} size={16} className={`fill-accent text-accent icon-entrance-spin icon-delay-${i + 1}`} />
                     ))}
-                  </motion.div>
+                  </div>
                   <p className="text-muted-foreground mb-6">{testimonial.text}</p>
                   <div>
                     <p className="font-semibold">{testimonial.name}</p>
@@ -407,10 +341,12 @@ export default function Home() {
             ))}
           </motion.div>
         </div>
+        <WaveDivider position="bottom" variant="layered" color="primary" />
       </section>
 
       {/* CTA Section with dramatic entrance */}
-      <section className="py-20 bg-primary text-primary-foreground overflow-hidden">
+      <section className="relative py-20 bg-primary text-primary-foreground overflow-hidden">
+        <WaterParticles density="medium" color="white" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h2
             className="text-3xl md:text-4xl font-bold mb-6"
@@ -432,7 +368,6 @@ export default function Home() {
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
-            initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
@@ -447,12 +382,10 @@ export default function Home() {
             </motion.div>
             <motion.a
               href="tel:+421905123456"
-              className="border-2 border-primary-foreground hover:bg-primary-foreground/10 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition inline-block"
+              className="border-2 border-primary-foreground hover:bg-primary-foreground/10 text-primary-foreground px-8 py-3 rounded-lg font-semibold transition inline-block icon-pulse-ring-delayed"
               variants={staggerItem}
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}
-              animate={{ boxShadow: ["0 0 0 0 rgba(255,255,255,0.7)", "0 0 0 10px rgba(255,255,255,0)", "0 0 0 0 rgba(255,255,255,0)"] }}
-              transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
             >
               Zavolať +421 905 123 456
             </motion.a>

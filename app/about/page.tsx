@@ -14,6 +14,7 @@ import {
   staggerItem,
 } from "@/lib/animations"
 import { useCountUpFormatted } from "@/hooks/use-count-up"
+import { WaveDivider } from "@/components/background-effects/wave-divider"
 
 // Stats Counter Component
 function StatsCounter({ number, isLarge = false }: { number: string; isLarge?: boolean }) {
@@ -86,7 +87,7 @@ export default function AboutPage() {
   return (
     <main>
       {/* Hero Section with animation */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-28 md:pt-36 -mt-20">
+      <section className="relative bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-32 md:pt-40 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             O BlueDrop
@@ -95,6 +96,7 @@ export default function AboutPage() {
             Viac ako 10 rokov dôveryhodných a profesionálnych inštalatérskych služieb v Bratislave.
           </p>
         </div>
+        <WaveDivider position="bottom" variant="flowing" color="background" />
       </section>
 
       {/* Company Story with animated stats */}
@@ -102,9 +104,9 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial="hidden"
+              
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.1 }}
               variants={fadeInLeft}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-6">Náš príbeh</h2>
@@ -124,15 +126,15 @@ export default function AboutPage() {
             </motion.div>
             <motion.div
               className="bg-card rounded-2xl border border-border p-8"
-              initial="hidden"
+              
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.1 }}
               variants={fadeInRight}
             >
               <motion.div
                 className="space-y-6"
                 variants={staggerSlowContainer}
-                initial="hidden"
+                
                 whileInView="visible"
                 viewport={{ once: true }}
               >
@@ -144,17 +146,13 @@ export default function AboutPage() {
                     whileHover={{ x: 10, scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <motion.div
-                      className="w-20 h-20 bg-gradient-to-br from-accent to-primary rounded-xl flex items-center justify-center flex-shrink-0"
-                      whileHover={{ rotate: [0, -5, 5, -5, 0], scale: 1.1, borderRadius: "0.75rem" }}
-                      transition={{ duration: 0.5 }}
-                    >
+                    <div className="w-20 h-20 bg-gradient-to-br from-accent to-primary rounded-xl flex items-center justify-center flex-shrink-0 icon-hover-wiggle-scale">
                       {stat.number.includes("+") || stat.number.includes("%") ? (
                         <StatsCounter number={stat.number} />
                       ) : (
                         <span className="text-2xl font-bold text-accent-foreground">{stat.number}</span>
                       )}
-                    </motion.div>
+                    </div>
                     <div>
                       <p className="font-semibold text-foreground text-lg">{stat.label}</p>
                     </div>
@@ -171,7 +169,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl md:text-4xl font-bold mb-16 text-center"
-            initial="hidden"
+            
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
@@ -181,9 +179,9 @@ export default function AboutPage() {
           <motion.div
             className="grid md:grid-cols-3 gap-8"
             variants={staggerContainer}
-            initial="hidden"
+            
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.1 }}
           >
             <motion.div
               variants={staggerItem}
@@ -196,13 +194,9 @@ export default function AboutPage() {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <div className="bg-card rounded-2xl border border-border p-8 text-center h-full">
-                <motion.div
-                  className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4 mx-auto"
-                  whileHover={{ rotate: 360, scale: 1.2, borderRadius: "0.75rem" }}
-                  transition={{ duration: 0.6 }}
-                >
+                <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4 mx-auto icon-hover-rotate">
                   <Award size={24} className="text-accent-foreground" />
-                </motion.div>
+                </div>
                 <h3 className="text-xl font-bold mb-3">Dokonalosť</h3>
                 <p className="text-muted-foreground">
                   Sme hrdí na poskytovanie špičkového remesla pri každom projekte, bez ohľadu na veľkosť.
@@ -220,13 +214,9 @@ export default function AboutPage() {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <div className="bg-card rounded-2xl border border-border p-8 text-center h-full">
-                <motion.div
-                  className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4 mx-auto"
-                  whileHover={{ rotate: 360, scale: 1.2, borderRadius: "0.75rem" }}
-                  transition={{ duration: 0.6 }}
-                >
+                <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4 mx-auto icon-hover-rotate">
                   <Shield size={24} className="text-accent-foreground" />
-                </motion.div>
+                </div>
                 <h3 className="text-xl font-bold mb-3">Integrita</h3>
                 <p className="text-muted-foreground">
                   Čestné ceny, transparentná komunikácia a profesionálna etika riadia všetko, čo robíme.
@@ -244,13 +234,9 @@ export default function AboutPage() {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <div className="bg-card rounded-2xl border border-border p-8 text-center h-full">
-                <motion.div
-                  className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4 mx-auto"
-                  whileHover={{ rotate: 360, scale: 1.2, borderRadius: "0.75rem" }}
-                  transition={{ duration: 0.6 }}
-                >
+                <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4 mx-auto icon-hover-rotate">
                   <Zap size={24} className="text-accent-foreground" />
-                </motion.div>
+                </div>
                 <h3 className="text-xl font-bold mb-3">Spoľahlivosť</h3>
                 <p className="text-muted-foreground">
                   K dispozícii 24/7 s rýchlym časom odozvy, pretože vieme, že núdzové situácie nečakajú.
@@ -266,7 +252,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl md:text-4xl font-bold mb-16 text-center"
-            initial="hidden"
+            
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
@@ -276,7 +262,7 @@ export default function AboutPage() {
           <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
             variants={staggerContainer}
-            initial="hidden"
+            
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}
           >
@@ -309,7 +295,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl md:text-4xl font-bold mb-16 text-center"
-            initial="hidden"
+            
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
@@ -319,20 +305,20 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-2 gap-8">
             <motion.div
               className="bg-card rounded-2xl border border-border p-8"
-              initial="hidden"
+              
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               variants={fadeInLeft}
               whileHover={{ scale: 1.02 }}
             >
               <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <Award size={24} className="text-accent" />
+                <Award size={24} className="text-accent icon-hover-wiggle" />
                 Profesionálne oprávnenia
               </h3>
               <motion.ul
                 className="space-y-3"
                 variants={staggerContainer}
-                initial="hidden"
+                
                 whileInView="visible"
                 viewport={{ once: true }}
               >
@@ -352,20 +338,20 @@ export default function AboutPage() {
             </motion.div>
             <motion.div
               className="bg-card rounded-2xl border border-border p-8"
-              initial="hidden"
+              
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               variants={fadeInRight}
               whileHover={{ scale: 1.02 }}
             >
               <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-                <Briefcase size={24} className="text-accent" />
+                <Briefcase size={24} className="text-accent icon-hover-wiggle" />
                 Prečo je to dôležité
               </h3>
               <motion.ul
                 className="space-y-4 text-muted-foreground"
                 variants={staggerContainer}
-                initial="hidden"
+                
                 whileInView="visible"
                 viewport={{ once: true }}
               >
@@ -396,18 +382,15 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial="hidden"
+              
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               variants={fadeInLeft}
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-8 flex items-center gap-3">
-                <motion.div
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
+                <div className="icon-continuous-float">
                   <MapPin size={32} className="text-accent" />
-                </motion.div>
+                </div>
                 Oblasť služieb
               </h2>
               <p className="text-muted-foreground mb-8 leading-relaxed">
@@ -417,7 +400,7 @@ export default function AboutPage() {
               <motion.div
                 className="grid sm:grid-cols-2 gap-4"
                 variants={staggerContainer}
-                initial="hidden"
+                
                 whileInView="visible"
                 viewport={{ once: true }}
               >

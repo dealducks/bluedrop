@@ -4,8 +4,8 @@ import { Variants } from "framer-motion";
 export const DURATIONS = {
   fast: 0.2,
   normal: 0.4,
-  slow: 0.6,
-  slower: 0.8,
+  slow: 0.3,
+  slower: 0.4,
 };
 
 // Spring configurations
@@ -157,7 +157,7 @@ export const staggerContainer: Variants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.1,
+      delayChildren: 0,
     },
   },
 };
@@ -168,7 +168,7 @@ export const staggerFastContainer: Variants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.05,
-      delayChildren: 0.05,
+      delayChildren: 0,
     },
   },
 };
@@ -179,7 +179,7 @@ export const staggerSlowContainer: Variants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.15,
-      delayChildren: 0.2,
+      delayChildren: 0,
     },
   },
 };

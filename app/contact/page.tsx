@@ -13,6 +13,7 @@ import {
   staggerItem,
   scaleInBounce,
 } from "@/lib/animations"
+import { WaveDivider } from "@/components/background-effects/wave-divider"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -41,7 +42,7 @@ export default function ContactPage() {
   return (
     <main>
       {/* Hero Section with animation */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-28 md:pt-36 -mt-20">
+      <section className="relative bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-32 md:pt-40 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Kontaktujte nás
@@ -50,6 +51,7 @@ export default function ContactPage() {
             Máte otázku alebo potrebujete okamžitú pomoc? Sme tu pre vás. Kontaktujte nás ešte dnes pre bezplatnú konzultáciu.
           </p>
         </div>
+        <WaveDivider position="bottom" variant="flowing" color="white" />
       </section>
 
       {/* Emergency Banner with pulse animation */}
@@ -61,12 +63,9 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
+            <div className="icon-continuous-pulse">
               <AlertCircle size={20} className="flex-shrink-0" />
-            </motion.div>
+            </div>
             <p className="font-semibold">
               Núdzová situácia? Zavolajte nám okamžite na{" "}
               <a href="tel:+421905123456" className="underline hover:opacity-80">
@@ -84,9 +83,9 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Form with stagger animation */}
             <motion.div
-              initial="hidden"
+              
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.1 }}
               variants={fadeInLeft}
             >
               <h2 className="text-3xl font-bold mb-8">Napíšte nám</h2>
@@ -107,7 +106,7 @@ export default function ContactPage() {
                 onSubmit={handleSubmit}
                 className="space-y-6"
                 variants={staggerContainer}
-                initial="hidden"
+                
                 whileInView="visible"
                 viewport={{ once: true }}
               >
@@ -192,33 +191,28 @@ export default function ContactPage() {
 
             {/* Contact Information with stagger animations */}
             <motion.div
-              initial="hidden"
+              
               whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+              viewport={{ once: true, amount: 0.1 }}
               variants={fadeInRight}
             >
               <h2 className="text-3xl font-bold mb-8">Kontaktné informácie</h2>
               <motion.div
                 className="space-y-8"
                 variants={staggerContainer}
-                initial="hidden"
+                
                 whileInView="visible"
                 viewport={{ once: true }}
               >
                 {/* Phone */}
                 <motion.div
-                  className="bg-card rounded-2xl border border-border p-6"
+                  className="bg-card rounded-2xl border border-border p-6 card-hover-lift"
                   variants={staggerItem}
-                  whileHover={{ scale: 1.02, y: -5, borderRadius: "1rem" }}
                 >
                   <div className="flex items-start gap-4">
-                    <motion.div
-                      className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
-                      whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
-                      transition={{ duration: 0.5 }}
-                    >
+                    <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0 icon-hover-wiggle">
                       <Phone size={20} className="text-accent-foreground" />
-                    </motion.div>
+                    </div>
                     <div>
                       <h3 className="font-semibold mb-2">Telefón</h3>
                       <a
@@ -236,18 +230,13 @@ export default function ContactPage() {
 
                 {/* Email */}
                 <motion.div
-                  className="bg-card rounded-2xl border border-border p-6"
+                  className="bg-card rounded-2xl border border-border p-6 card-hover-lift"
                   variants={staggerItem}
-                  whileHover={{ scale: 1.02, y: -5, borderRadius: "1rem" }}
                 >
                   <div className="flex items-start gap-4">
-                    <motion.div
-                      className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
-                      whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
-                      transition={{ duration: 0.5 }}
-                    >
+                    <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0 icon-hover-wiggle">
                       <Mail size={20} className="text-accent-foreground" />
-                    </motion.div>
+                    </div>
                     <div>
                       <h3 className="font-semibold mb-2">Email</h3>
                       <a
@@ -265,18 +254,13 @@ export default function ContactPage() {
 
                 {/* Address */}
                 <motion.div
-                  className="bg-card rounded-2xl border border-border p-6"
+                  className="bg-card rounded-2xl border border-border p-6 card-hover-lift"
                   variants={staggerItem}
-                  whileHover={{ scale: 1.02, y: -5, borderRadius: "1rem" }}
                 >
                   <div className="flex items-start gap-4">
-                    <motion.div
-                      className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
-                      whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
-                      transition={{ duration: 0.5 }}
-                    >
+                    <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0 icon-hover-wiggle">
                       <MapPin size={20} className="text-accent-foreground" />
-                    </motion.div>
+                    </div>
                     <div>
                       <h3 className="font-semibold mb-2">Kancelária</h3>
                       <p className="font-semibold block mb-1">Štefánikova 15</p>
@@ -288,18 +272,13 @@ export default function ContactPage() {
 
                 {/* Hours */}
                 <motion.div
-                  className="bg-card rounded-2xl border border-border p-6"
+                  className="bg-card rounded-2xl border border-border p-6 card-hover-lift"
                   variants={staggerItem}
-                  whileHover={{ scale: 1.02, y: -5, borderRadius: "1rem" }}
                 >
                   <div className="flex items-start gap-4">
-                    <motion.div
-                      className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0"
-                      whileHover={{ rotate: [0, -10, 10, -10, 0], borderRadius: "0.75rem" }}
-                      transition={{ duration: 0.5 }}
-                    >
+                    <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center flex-shrink-0 icon-hover-wiggle">
                       <Clock size={20} className="text-accent-foreground" />
-                    </motion.div>
+                    </div>
                     <div>
                       <h3 className="font-semibold mb-2">Otváracie hodiny</h3>
                       <div className="space-y-1 text-sm">
@@ -330,7 +309,7 @@ export default function ContactPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.h2
             className="text-3xl font-bold mb-12 text-center"
-            initial="hidden"
+            
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}

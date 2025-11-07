@@ -21,6 +21,7 @@ import {
   staggerContainer,
   staggerItem,
 } from "@/lib/animations"
+import { WaveDivider } from "@/components/background-effects/wave-divider"
 
 export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
@@ -131,7 +132,7 @@ export default function ServicesPage() {
   return (
     <main>
       {/* Hero Section with animation */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-28 md:pt-36 -mt-20">
+      <section className="relative bg-gradient-to-r from-primary to-secondary text-primary-foreground py-16 md:py-24 pt-32 md:pt-40 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
             Naše služby
@@ -140,6 +141,7 @@ export default function ServicesPage() {
             Poskytujeme komplexné inštalatérske riešenia pre domácnosti aj firmy v Bratislave.
           </p>
         </div>
+        <WaveDivider position="bottom" variant="flowing" color="background" />
       </section>
 
       {/* Services Grid with Filter */}
@@ -212,13 +214,9 @@ export default function ServicesPage() {
                 >
                   <div className="bg-card rounded-2xl border border-border overflow-hidden hover:shadow-lg transition h-full flex flex-col">
                     <div className="p-8 flex flex-col flex-grow">
-                      <motion.div
-                        className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4"
-                        whileHover={{ rotate: [0, -10, 10, -10, 0], scale: 1.1, borderRadius: "0.75rem" }}
-                        transition={{ duration: 0.5 }}
-                      >
+                      <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center mb-4 icon-hover-wiggle-scale">
                         <service.icon size={24} className="text-accent-foreground" />
-                      </motion.div>
+                      </div>
                       <h3 className="text-xl font-bold mb-2">{service.title}</h3>
                       <p className="text-muted-foreground text-sm mb-6 flex-grow">{service.description}</p>
 
